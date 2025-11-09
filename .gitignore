@@ -1,0 +1,18 @@
+Builds/
+JuceLibraryCode/
+
+# Common build outputs
+*.vst3
+*.aaxplugin
+*.component
+*.app
+*.exe
+*.dll
+*.so
+
+# IDE/OS noise
+.vscode/
+.idea/
+xcuserdata/
+.DS_Store
+Thumbs.db
