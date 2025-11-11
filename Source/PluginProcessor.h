@@ -23,7 +23,7 @@ public:
     juce::AudioProcessorValueTreeState apvts;
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
 
-    // DSP state
+    
     double rawVolume = 0.5;
     float overdrive = 1.0f;
     int counter = 0;
@@ -36,14 +36,14 @@ public:
     float ringWave = 0.5f;
     float reverbwet = 0.3f;
 
-    // Per-channel bitcrusher state
+
     std::vector<int> bitcrushCounters;
     std::vector<float> storedBitCrushVals;
     std::vector<char> bitcrushInitialized;
 
     std::vector<float> carrierPhaseSinePerChannel;
     std::vector<float> carrierPhaseSawtoothPerChannel;
-    juce::Reverb dspReverb; // modern DSP reverb
+    juce::Reverb dspReverb; 
 
     //==============================================================================
     juce::AudioProcessorEditor* createEditor() override;

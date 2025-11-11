@@ -85,8 +85,7 @@ double NewProjectAudioProcessor::getTailLengthSeconds() const
 
 int NewProjectAudioProcessor::getNumPrograms()
 {
-    return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
-                // so this should be at least 1, even if you're not really implementing programs.
+    return 1;
 }
 
 int NewProjectAudioProcessor::getCurrentProgram()
@@ -113,12 +112,12 @@ void NewProjectAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
 {
     juce::ignoreUnused(sampleRate, samplesPerBlock);
 
-    // Size state arrays robustly for current layout
+ 
     const int numChannels = std::max(getTotalNumInputChannels(), getTotalNumOutputChannels());
     bitcrushCounters.assign(numChannels, 0);
     storedBitCrushVals.assign(numChannels, 0.0f);
 
-    // Reset carrier phases
+ 
     carrierPhaseSine = 0.0f;
     carrierPhaseSawtooth = 0.0f;
 
@@ -166,7 +165,7 @@ float NewProjectAudioProcessor::getCurrentSampleRate()
 {
     return getSampleRate();
 }
-///SetValuesSafe
+
 
 juce::AudioProcessorValueTreeState::ParameterLayout NewProjectAudioProcessor::createParameters()
 {
@@ -231,17 +230,17 @@ void NewProjectAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, ju
     const int numChannels = buffer.getNumChannels();
     const int numSamples = buffer.getNumSamples();
 
-    // Clear extra output channels
+
     for (int i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear(i, 0, numSamples);
 
-    // Ensure per-channel arrays match current buffer layout
+
     if ((int)bitcrushCounters.size() != numChannels)
         bitcrushCounters.assign(numChannels, 0);
     if ((int)storedBitCrushVals.size() != numChannels)
         storedBitCrushVals.assign(numChannels, 0.0f);
 
-    // --- read parameters
+
     const float gainParam           = apvts.getRawParameterValue("gain")->load();
     const float overdriveParam      = apvts.getRawParameterValue("overdrive")->load();
     const float targetSRParam       = apvts.getRawParameterValue("targetSR")->load();
@@ -250,7 +249,7 @@ void NewProjectAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, ju
     const float ringModAmountParam  = apvts.getRawParameterValue("ringModAmount")->load();
     const float reverbParam         = apvts.getRawParameterValue("reverb")->load();
 
-    // Update classic reverb safely each block
+
     {
         juce::Reverb::Parameters rvp;
         rvp.roomSize   = 0.6f;
@@ -265,12 +264,12 @@ void NewProjectAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, ju
     const float sampleRateF = static_cast<float>(getSampleRate());
     const float carrierInc = (carrierParam * 2.0f * juce::MathConstants<float>::pi) / sampleRateF;
 
-    // --- bitcrusher calculation
+
     float clampedTargetSR = juce::jlimit(0.01f, 0.99f, targetSRParam);
     float desiredHz = sampleRateF * clampedTargetSR;
     countTo = static_cast<int>(std::max(1.0f, sampleRateF / desiredHz));
 
-    // --- per-channel processing (drive by buffer channel count)
+  
     for (int channel = 0; channel < numChannels; ++channel)
     {
         float* channelData = buffer.getWritePointer(channel);
@@ -279,11 +278,11 @@ void NewProjectAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, ju
         {
             float inputSample = channelData[sample];
 
-            // Overdrive
+          
             float distortedSample = std::tanh(inputSample * overdriveParam);
             distortedSample = distortedSample / (overdriveParam / 2.0f);
 
-            // Bitcrusher
+       
             bitcrushCounters[channel]++;
             if (bitcrushCounters[channel] >= countTo)
             {
@@ -292,7 +291,7 @@ void NewProjectAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, ju
             }
             float crushedSample = storedBitCrushVals[channel] * 0.7f;
 
-            // Ring modulation (shared phase for both channels; matches original members)
+        
             carrierPhaseSine += carrierInc;
             if (carrierPhaseSine >= juce::MathConstants<float>::twoPi)
                 carrierPhaseSine -= juce::MathConstants<float>::twoPi;
@@ -316,7 +315,7 @@ void NewProjectAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, ju
                 (1.0f - ringModAmountParam) * crushedSample
               + ringModAmountParam     * modulatedSample;
 
-            // Apply gain
+            
             channelData[sample] = outputSample * gainParam;
         }
     }
@@ -364,7 +363,7 @@ void NewProjectAudioProcessor::setStateInformation (const void* data, int sizeIn
 }
 
 //==============================================================================
-// This creates new instances of the plugin..
+
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new NewProjectAudioProcessor();

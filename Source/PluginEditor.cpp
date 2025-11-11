@@ -29,16 +29,6 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
     gainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
         audioProcessor.apvts, "gain", gainSlider);
 
-    
-    
-//    gainLabel.setText("Gain", juce::dontSendNotification);  // Set the label text
-//        gainLabel.setJustificationType(juce::Justification::centred);
-//        gainLabel.setBounds(20, 0, 80, 30);  // Position the label above the gainSlider
-//        addAndMakeVisible(gainLabel);
-//    //font
-    
-    
-
     //tanh
     overdriveSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
        overdriveSlider.setRange(0.1, 10.0, 0.01); // Min: 0.1, Max: 10, Step size: 0.01
@@ -51,15 +41,8 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
         audioProcessor.apvts, "overdrive", overdriveSlider);
     overdriveSlider.setLookAndFeel(&customKnobLook);
 
-    
-//    tanhLabel.setText("Overdrive", juce::dontSendNotification);  // Set the label text
-//       tanhLabel.setFont(juce::Font(15.0f));  // Set font size for the label
-//       tanhLabel.setJustificationType(juce::Justification::centred);
-//       tanhLabel.setBounds(250, 0, 80, 30);  // Position the label above the overdriveSlider
-//       addAndMakeVisible(tanhLabel);
 
-    
-    //bitcrusher
+   
     
     srSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
        srSlider.setRange(0, 0.6, 0.01); // Min: 0.1, Max: 10, Step size: 0.01
@@ -72,12 +55,7 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
         audioProcessor.apvts, "targetSR", srSlider);
     srSlider.setLookAndFeel(&customKnobLook);
     
-//    srLabel.setText("SR Reduction", juce::dontSendNotification);  // Set the label text
-//       srLabel.setFont(juce::Font(15.0f));  // Set font size for the label
-//       srLabel.setJustificationType(juce::Justification::centred);
-//       srLabel.setBounds(350, 0, 80, 30);  // Position the label above the srSlider
-//       addAndMakeVisible(srLabel);
-//    
+
 //    
     //ring modulator frequency
     carrierSlider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
@@ -92,14 +70,7 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
         audioProcessor.apvts, "carrier", carrierSlider);
 
     
-    
-    
-//    carrierLabel.setText("Ring Modulator", juce::dontSendNotification);  // Set the label text
-//       carrierLabel.setFont(juce::Font(15.0f));  // Set font size for the label
-//    carrierLabel.setJustificationType(juce::Justification::centred);
-//    carrierLabel.setBounds(520, 0, 80, 30);  // Position the label above the srSlider
-//       addAndMakeVisible(carrierLabel);
-//    
+
     //ring mix //ringmodamount
     
     ringMixSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
@@ -113,12 +84,6 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
         audioProcessor.apvts, "ringModAmount", ringMixSlider);
     ringMixSlider.setLookAndFeel(&customKnobLook);
     
-//    ringMixLabel.setText("Ring Mix", juce::dontSendNotification);  // Set the label text
-//    ringMixLabel.setFont(juce::Font(15.0f));  // Set font size for the label
-//    ringMixLabel.setJustificationType(juce::Justification::centred);
-//    ringMixLabel.setBounds(280, 0, 80, 30);  // Position the label above the srSlider
-//       addAndMakeVisible(ringMixLabel);
-   
     
     //ring wavemix
     
@@ -133,15 +98,7 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
     ringWaveAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
         audioProcessor.apvts, "ringWave", ringWaveSlider);
 
-    
-    
-//    ringWaveLabel.setText("Wave Ratio", juce::dontSendNotification);  // Set the label text
-//    ringWaveLabel.setFont(juce::Font(15.0f));  // Set font size for the label
-//    ringWaveLabel.setJustificationType(juce::Justification::centred);
-//    ringWaveLabel.setBounds(520, 0, 80, 30);  // Position the label above the srSlider
-//       addAndMakeVisible(ringWaveLabel);
-
-    
+ 
     //reverb wet
     reverbSlider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
     reverbSlider.setRange(0.f, 1.f, 0.1f); // Range between 20 Hz and 2000 Hz
@@ -157,14 +114,7 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
         audioProcessor.apvts, "reverb", reverbSlider);
     reverbSlider.setInterceptsMouseClicks(true, true);
     
-    
-//    reverbLabel.setText("Reverb", juce::dontSendNotification);  // Set the label text
-//    reverbLabel.setFont(juce::Font(15.0f));  // Set font size for the label
-//    reverbLabel.setJustificationType(juce::Justification::centred);
-//    reverbLabel.setBounds(20, 0, 80, 30);  // Position the label above the srSlider
-//       addAndMakeVisible(reverbLabel);
 
-    
     startTimerHz(30);
 }
 
@@ -187,13 +137,6 @@ void NewProjectAudioProcessorEditor::paint (juce::Graphics& g)
 
 void NewProjectAudioProcessorEditor::resized()
 {
-//    gainSlider.setBounds(getLocalBounds());
-//    overdriveSlider.setBounds(getLocalBounds());
-//    srSlider.setBounds(getLocalBounds());
-//    carrierSlider.setBounds(getLocalBounds());
-//    ringMixSlider.setBounds(getLocalBounds());
-//    ringWaveSlider.setBounds(getLocalBounds());
-//    reverbSlider.setBounds(getLocalBounds());
 
     gainSlider.setBounds(60, -118, 90, 300);
       overdriveSlider.setBounds(210, 13, 50, 225);
